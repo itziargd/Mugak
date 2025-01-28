@@ -1,0 +1,771 @@
+#1.10 bertsioari egindako moldaketa eta eguneraketak 2012ko apirila
+
+#DELIMITERS = "<DELIM>";
+DELIMITERS = "<$.>" "<.>";
+
+#SETS
+
+LIST KOMA = PUNT_KOMA;
+LIST PUNT = PUNT_PUNT;
+LIST PUNTKOMA = PUNT_PUNT PUNT_KOMA;
+LIST PUNTUAZIO = PUNT_PUNT PUNT_BI_PUNT PUNT_GALD PUNT_ESKL PUNT-HIRU PUNT_PUNT_KOMA;
+LIST PUNTUAZIOA = PUNT_PUNT PUNT_KOMA PUNT_BI_PUNT PUNT_GALD PUNT_ESKL PUNT_HIRU PUNT_PUNT_KOMA;
+LIST BEREIZ = BEREIZ;  # puntuazio listaren batean sartu beharko da KONPONTZEKO
+LIST LOK = LOK;
+LIST LOT = LOT;
+LIST PUNT_PUNT_KOMA = PUNT_PUNT_KOMA;
+LIST PUNT_BI_PUNT = PUNT_BI_PUNT;
+LIST PUNT_GALD = PUNT_GALD;
+LIST PUNT_ESKL = PUNT_ESK;
+LIST PUNT_HIRU = PUNT_HIRU;
+LIST MEND = KONP BALD MOD DENB KONT KAUS MOS ERLT HELB; #lehen men zen, baina men-ek corpusean beste adiera bat du;konp kendu behar da
+LIST ADI_NOTDEK = NOTDEK ADL ADT;
+LIST JNT = JNT;
+LIST GERO = "gero";
+LIST KONPL = KONPL; # konpletiboak dielra suposatzen dnez, konp izatetik konpl izatera pasa da
+LIST ADB = ADB;
+LIST HAS_MAI = HAS_MAI;
+LIST PUNT_KOMA = PUNT_KOMA;
+LIST DEK = DEK;
+LIST LOT_MEN = LOT_MEN;
+LIST ERLT = ERLT;
+LIST BST = BST;
+LIST GABE = "gabe";
+LIST SIN_PART_NOTDEK = SIN_PART_NOTDEK;
+LIST ADL = ADL;
+LIST ADT = ADT;
+LIST NOTDEK = NOTDEK;
+LIST GALDETZAILEAK = ADOGAL NOLGAL ALGGAL IZGGAL GAL; #hauetako batzuk ez idra existitzen! konpontzeko!!!
+LIST MOS = MOS;
+LIST KAUS = KAUS;
+LIST M_KAUS = "kausa" "medio" "bide";
+LIST ADIZE = ADIZE;
+LIST EZEZKOAK = "ez";
+LIST HELB = HELB;
+LIST BALD = BALD;
+LIST BALDOSAG = "bezala" "bezalaxe" "ere";
+LIST SIN = SIN;
+LIST PART = PART;
+LIST GEL = GEL;
+LIST EZIK = "ezik";
+LIST EZEAN = "ezean";
+LIST DENB = DENB;
+LIST MOD = MOD;
+LIST ADI = ADI;
+#LIST M1_DENB = "bitartean" "unean" "bakoitzean" "guztietan" "gehienetan" "aldiro" "arte" "bitarte" "bakoitza";
+LIST M1_DENB = "bitarte" "une" "bakoitz" "guzti" "gehien" "aldiro" "arte";	 #set-a konponduta
+LIST BITARTEAN = "bitartean";	    # honek ez du balio
+LIST UNEAN = "unean";		     # honek ez du balio
+LIST BAKOITZEAN = "bakoitzean";      # honek ez du balio
+LIST GUZTIETAN = "guztietan"; 	     # honek ez du balio
+LIST GEHIENETAN = "gehienetan";	      # honek ez du balio
+LIST ALDIRO = "aldiro"; 	      # honek ez du balio
+LIST ARTE = "arte";		       # honek ez du balio
+LIST HARIK_ETA = "harik_eta";
+LIST M3_DENB = "eta" "bezain" "baino";
+LIST AURRETIK = "aurretik";
+LIST ORDUKO = "orduko";
+LIST OSTEAN = "ostean";
+LIST ONDOREN = "ondoren";
+LIST M1_KONT = "arren";
+LIST M2_KONT = "nahiz" "nahiz_eta";
+LIST ERE = "ere";
+#LIST M1_MOD = "bezala" "moduan" "legez" "eran" "antzera" "gisan" "neurrian" "heinean";
+LIST M1_MOD = "bezala" "modu" "lege" "era" "antza" "gisa" "neurri" "heinean";
+LIST BEZALA = "bezala";
+LIST MODUAN = "moduan";
+LIST LEGEZ = "legez";
+LIST ERAN = "eran";
+LIST ANTZERA = "antzera";
+LIST GISAN = "gisan";
+LIST NEURRIAN = "neurrian"; 
+LIST HEINEAN = "heinean";
+LIST NAHI = "nahi";
+LIST M2_MOD = "bezalakoa" "modukoa";
+LIST BEZALAKOA = "bezalakoa";
+LIST MODUKOA = "modukoa";
+LIST EZ_BEZALA = "ez_bezala";
+LIST KAUSA = "kausa";
+LIST BIDE = "bide";
+LIST MEDIO = "medio";
+LIST ASMOTAN = "asmotan";
+LIST ASMOZ = "asmoz";
+LIST INE = INE;
+LIST ARREN = "arren";
+LIST &ESALDI_BUK_1 = &ESALDI_BUK_1;
+LIST MOD/DENB = MOD/DENB;
+LIST ADK = ADK; # haulak harrapatzeko
+LIST MENOS = "bezala" "modu" "lege" "era" "antza" "gisa" "neurri" "heinean" "bezain" "baino" "ez_bezala"  "une" "bakoitz" "guzti" "gehien" "aldiro" "arte" "bitarte" "kausa" "bide" "medio" "gero" "arren" "orduko"; #ebaluazioako oharra: ostean (OSTE?)/ondoren gehitu!!!  heinean -> hein
+LIST MDNC = MDNC; # aginterako adlak
+# M1_KONT M3_DENB EZ_BEZALA M2_MOD M1_DENB GERO  MEDIO KAUSA BIDE # menosak!!!
+LIST MEN =  MEN;  # hori dela eta -ko eta hartzeko, 8 ERREGELEAN
+
+#MAPPINGS
+
+# Puntuazio-markak
+#(1)
+MAP (}MUGA) TARGET (PUNT_PUNT_KOMA);
+
+# Adb.:
+# Esan zigun joan egingo zela;| ez zuela gezurrik esaten.
+# Egin ezazu nahi duzun moduan;| baina gero ikusiko duzu.
+
+#(2)
+MAP (}MUGA) TARGET (PUNT_BI_PUNT);
+
+# Adb.:
+# Esan zigun honakoak proposatu zizkiola:| oporretara joatea, etxean lasai geratzea edo lasaitzeko ikastaroren bat egitea.
+# Egin ezazu esan bezala:| goiz jaiki eta goiz oheratu.
+
+#(3)   #parentesiak jarrita
+MAP (}MUGA) TARGET (PUNT_GALD) IF  (NOT 1 (PUNT_GALD) OR (PUNT_ESKL) OR (PUNT) OR (KOMA));
+
+# Adb.:
+# Zer uste duzu?,| galdetu zion.
+# Zer uste duzu?!|
+# Zer????|
+# Zer uste duzu?.| Oraindik ez dut ahaztu. 
+# Hori nahi duela?|
+
+#(4)
+MAP (}MUGA) TARGET (PUNT_ESKL) IF (NOT 1  PUNTUAZIOA OR BEREIZ); 
+# Adb.:
+# Baina, idatz iezadazu, mesedez!!!|
+# Poztuko ninduen hura ikusteak! .| Benetan.
+# Nahi duzun bezala! |
+
+#(5)
+MAP (}MUGA) TARGET (PUNT_HIRU) IF  (NOT 1 PUNTUAZIOA OR BEREIZ);
+
+# Adb.:
+# Begira...,| egia esango dizut.
+# Ez dakit... .| Ez dakit zer esan.
+# Ez dakit...;| ez dakit zer esan.
+# Bai...?|
+# Zuk nahi duzun bezala...|
+
+#(6)
+MAP (}MUGA) TARGET (PUNT_PUNT) IF (0 &ESALDI_BUK_1)
+				  (NOT -1 (ERROM)OR(ZEN)) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# 3.000 pta. balio du. | Ez da batere garestia.
+# XVII. mendearen erdialdera hainbat ikerlarik kamera ilunetik eratorritako arazo desberdinetan sakontzen jarraizen dute. |
+
+
+# Juntadura; alborakuntza
+
+#(7)		# &ESALDI_BUK_1 etiketa beste grmatika bat pasata jartzen da 
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (0 &ESALDI_BUK_1)
+				  (*1 ADI OR ADT BARRIER PUNTUAZIOA)
+				  (*-1 ADI OR ADT BARRIER PUNTUAZIOA);
+#Adb.:
+#Gizonak irribarre egin nahi izan zuen, | baina lortu gabe [...]
+#Beren adarkizko larruazalak lehorketatik babeste zituen, | eta arrazoi hau dela eta ez zeuden ur-biltegietara loturik [...]
+
+#(8)   		 #men hori aldatu behar den pentsatu: lehenengo lerrokoa  aldatu?  lot-mend edo mend?; bigarren lerrrokoak bai; bigarren mend horrek ez ditu konpletikboak hartzen, beraz pentsatu behar da ea konpl mend-en gehitu behar den edo erregela horretan mend edo konpl jarri; edo mendeko guztientzat list berri bat sortu. hal ere dela eta egitura soilik harrapatzko baldin bada, konpl jarri ta listo.probatu behar da. men horretako formalua aldatu men_kaus jarriz? 
+MAP (}MUGA) TARGET (LOT) IF (0 (MEN) + (KAUS) )
+			    (-1 (ADT)+(KONPL) OR (ADL)+(KONPL)) 
+			    (*1 ADT OR ADL BARRIER PUNTUAZIOA)
+			    (NOT 1 PUNTUAZIOA);
+#Adb.:
+#Zer dela eta | ezagutu behar zintzakedan?
+#[...]arrazoi hau dela eta | ez zeuden ur-biltegietara loturik[...]
+
+
+
+
+
+#(9)	      #NR_HU ZEGOEN ETA NR_HURA JARRI DA eta men ere mend bihurtu da; parentesiak jarrita. adi bakarri kjarrita ez ditu gainontzekoak harrapatzen? aADK gehitu behar? EZ DA APLIKATZEN
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (MEND)) (*1 (ADT) OR (ADI) OR (ADL) OR (ADIZE) BARRIER PUNTUAZIOA)
+					     (*-1 (ADT) OR (ADI) OR (ADL) OR (ADIZE) BARRIER PUNTUAZIOA)
+					     (NOT -2 ("izan")+(ADT)+(NR_HURA)+(ERLT)+(ABS)+(NUMS));
+
+#Adb.:
+#Ikus dezakezuenez, | ez dizuet ezer ekar diezadazuen eskatzen[...]
+#Dena dela, noizean behin idazten du.
+#(...) gustatzen zaizkidan arren,| nahiago ditut (...) 
+
+
+
+#(9a) komak harrapatzeko 2012-04-20 BADABIL EZ-JOKATU JARRAITUEKIN KONPROBATUTA LAGINEAN ETA ONDO!!!! 
+
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 MEND OR KONPL);
+#ebaluazioko oharrak: gehitu 1C not LOT 
+
+#(9MENOS) MENOSEN ONDOREN KOMA JARTZEKO 2012-04-23 badabil erdizka. politikoa medio gaizki. PROBA BERRIA ONDO baina denen artean et not @-JADNAG_MP_IZLG>. ONDO erroreak konponduta!!! # (-2 (MEND) OR (KONPL))
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 MENOS)
+      	    	   	       	   (-2C (ADL) OR (ADK) OR (ADT) OR (ADI))
+				
+				    (NOT -2  (@-JADNAG_MP_IZLG>));
+
+#(9b)komak harrapatzeko 2012-04-20 TRINKOAK   EZ DABIL
+
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADT)+((MEND) OR (KONPL))); EZ DABIL
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 ADT); # probatzeko  ONDOOOOOOOO  2012-04-25
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 ADK); # probatzeko  ONDOOOOOOOO 2012-04-25
+
+
+
+#(9c)komak harrapatzeko 2012-04-20  JOKATU JARRAITUAK  EZ DABIL
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADL)+((MEND) OR (KONPL))); EZ DABIL
+
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 ADL); # probatzeko  ONDOOOOOOOO 2012-04-25
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADL)|(KONPL));
+
+#(9d) komak harrapatzeko 2012-04-20 MULTIWORD adb: nahi_duzunenan
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADK)+(MEND));
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADL)+(KONPL));
+
+
+#(10) #deskomentatu da probak egiteko, bigarren zaitia deskomentutatu gabe eta batzuk gaizki jarri!! DESKOMENTATU (ebaluazioan egindako komentarioa)
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (*1 (ADL)+(NOTDEK)OR(ADT)+(NOTDEK) OR (ADK)+(NOTDEK) BARRIER PUNTUAZIOA);
+				  #(*-1(ADL)+(NOTDEK)OR(ADT)+(NOTDEK) BARRIER PUNTUAZIOA);
+
+#Adb.:
+#Hau dela eta,| ...  #Hau ez du 8.ak iten??? 
+#Ez dira etortzen,| ez dute deitzen.
+#Beste ehun miloi urte igaro ziren, | adli karboniferoa ailegatu zen[...]
+
+#2006/07/26
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADIZE))
+				  (*1 (ADI)OR(ADT)OR(ADL) BARRIER PUNTUAZIOA); 
+				  
+# Juntadura
+
+#(11)"baita_ere" GEHITUA 2012-04-25
+MAP (}MUGA) TARGET (ADL) IF (1 (LOT)+(JNT)) (NOT 1 ("baita" )OR ("ezta") OR ("baita_ere"));
+
+#Adb.:
+#Gainontzekoek eszedentzia eskatu dute | edo bere borondatez Gorputza utzi dute.
+#Zuek badakizue nik beti zintzo jokatu dudala | eta gure lurralde hauetan zuei lehiakide indartsu bat irten zaizuen arren[...]
+
+#(12)"baita_ere" GEHITUA 2012-04-25
+MAP (}MUGA) TARGET (ADI) IF (1 (LOT)+(JNT)) (NOT 1 ("baita") OR ("ezta") OR ("baita_ere"));
+
+#Adb.:
+#Eskutitza irakurtzen jarraitu | eta zuek ikusi[...]
+
+#(13) # eta ere gehitu beharko zaio, bestela dela| eta egiten du: "baita_ere" gehitua  2012-04-25
+MAP (}MUGA) TARGET (ADT) IF (1 (LOT)+(JNT)) (NOT 1 ("baita") OR ("ezta") OR ("baita_ere"));
+
+#Adb.:
+#[...]ispilu bat zihoan |eta honen gainean paperez estalitako beira bat aurkitzen zen.
+
+#(14) # ez dabil, PUNTUAZIO ordez PUNTUAZIOA proba;badabil! "baita_ere" gehitua 2012-04-25
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (1 (LOT)+(JNT))
+				  (*-1 (ADT)OR(ADL) BARRIER PUNTUAZIOA) 
+			 	  (NOT 1 ("baita") OR ("ezta") OR ("baita_ere"));
+#Adb.:
+#[...]ez zaie oraindik gasa etxe barruan jartzea interesatzen, | baina gerora, agian nahiko dutela[...]
+	  
+
+# Menderakuntza: 
+
+#Perpaus konpletiboak
+
+#KONP -->KONPL? konprobatu behar da
+# JADNAG_MP -->JADNAG_MP_ADLG HAU KONPONDU BEHAR DA
+
+#(15)		#KONP (KONPARATIBOA da bertsio berrian) ZEGOEN ETA KONPL JARRI DUGU, jadnag_mp ez da existitzen, aldatu behar da
+MAP (}MUGA) TARGET (KONPL) IF (0 (ADT)+(@+JADNAG_MP))(NOT 1 ERE) (NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#[...] barne estruktura guztia hutsik dagoela | ikusten da.
+#[...] baimena duen instalatzailea izan behar duela | kontuan izanik.
+#Segurtasun planik ez dagoela? | 
+
+
+#(16)	    #KONP (KONPARATIBOA) ZEGOEN ETA KONPL JARRI DUGU begiratu
+MAP (}MUGA) TARGET (KONPL) IF (0 (ADL)+(@+JADLAG_MP))
+			    (NOT 1 NOTDEK OR ERE)
+			    (NOT 0 DEK)
+			    (NOT 0 (%ADIKATETEN))
+			    (*1 (ADI)OR(ADT)OR(ADL) BARRIER PUNTUAZIOA)
+			    (NOT 1 PUNTUAZIOA);
+#Adb.:
+#[...]inork ez zuela gelan sartzen ikusi.
+#Errealitatea agortu egin dela | esatea[...]
+
+#(17)	       #KONP (KONPARATIBOA) ZEGOEN ETA KONPL JARRI DUGU
+MAP (}MUGA) TARGET (%ADIKATETENBU) IF (*-1 (KONPL) BARRIER (%ADIKATETEN)) (NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#[...]eskatu nizuen zoriona ez dela hemendik igaro | aitortu behar dizuet.
+
+
+#(18)	     #KONP (konparatiboa) ZEGOEN ETA KONPL JARRI DUGU. orokorregia!!!!! ez du betetzen adbidekoa (NOT 1 PUNTUAZIOA) gehituta. 
+MAP (}MUGA) TARGET (%ADIKATBU) IF (-1 KONPL)
+    	    	   	       	  (NOT *1 M1_KONT BARRIER PUNTUAZIOA)
+				  (NOT 1 PUNTUAZIOA);
+#Adb.:
+#[...]beste 28 plaza ez direla bete | eransten du.
+
+
+#(19)	    MEN->MEND
+#MAP (}MUGA) TARGET (ADT) IF (NOT 0 MEND);
+			    #(NOT 1 PUNTUAZIOA)
+			    #(NOT 0 (MOD/DENB))
+			    #(NOT 1 ("ezetz")OR("baietz"))
+			    #(*1(MEN)+(KONP) BARRIER (PUNT_PUNT));
+
+#Adb.:
+#Zuek badakizue | nik beti zintzo jokatu dudala.
+
+#(20) #zirurrenik mend jarri beharko da
+#MAP (}MUGA) TARGET (ADL) IF (NOT 0 MEN)
+   			     #(NOT 1 PUNTUAZIOA)
+			     #(NOT 1 (ADI)+(NOTDEK))
+    			     #(*1 (MEN)+(KONP) BARRIER PUNTUAZIOA)
+		   	     #(NOT 0 (%ADIKATETEN));
+
+#Adb.:
+#[...]harro asko pentsatu nuen | ahaleginak merezi izan zuela.
+
+
+#(21)	    #ALDATU GABE, EZ DUT ULERTZEN NOTDEK ZERGATIK DEN TARGET
+
+#MAP (}MUGA) TARGET (NOTDEK) IF (*1 (KONP) BARRIER (PUNT_PUNT))
+                               #(NOT 0 MEN) (-1 ADL) (-2 ("ez"))
+			       #(NOT 1 PUNTUAZIOA);
+
+
+#Adb.:
+#Etxekoei ez zaie gustatzen | imajinatzen ibil nadin.
+
+
+
+# Zehar-galderak # GALDETZAILEak ORDEZ, GAL JARRI, baian ez dago beti gal dago laginean, beraz, gal list-an gehituta eta GALDETZAILEAk mantendu
+
+#(22)
+#MAP (}MUGA) TARGET (ADI) IF  (1 GALDETZAILEAK);
+
+#Adb.:
+#[...]morroiek eskaileretatik igoz | zer ekarriko zidaten zain egonez[...]
+#Ikusi | nolako desordenuan utzi duten[...]
+
+
+#(23)
+#MAP (}MUGA) TARGET (ADL) IF  (1 GALDETZAILEAK);
+
+
+#Adb.:
+#Abisualdia amaitu aurretik esan du | non kokatuak egongo diren.
+#Ezagutzen dut | nolako ospea duzun Nigerian[...]
+
+
+#(24)
+#MAP (}MUGA) TARGET (ADT) IF  (1 GALDETZAILEAK);
+
+
+#Adb.:
+#Badakit | zer pentsa litekeen[...]
+#Ez dakit | nork uzten dituen.
+
+
+#(25)
+MAP (}MUGA) TARGET (ADL) IF (-1 NOTDEK) (1 ADT OR NOTDEK OR EZEZKOAK)      
+					(NOT -1 ("ez"));
+
+
+#Adb.:
+#[...]paretan proiektatzen dela | deskubritzen du.
+#[...]ez dizuet ezer ekar diezadazuen | eskatzen.
+
+#(26)
+MAP (}MUGA) TARGET (MOS) IF (1 ADT OR ADI)(NOT 1 (@-JADNAG_MP_ADLG)) (NOT 2 ("gabe"));
+
+
+#Adb.:
+#[...]beste andere hori ea nor zen | galdetu zion.
+#[...]ea libre ote nengoen | galdetu zidan.
+
+
+
+# Kausazko perpausak
+
+#(27)	   #MEN ZENGOEN  (EZ DAGO LAGINEAN)
+MAP (}MUGA) TARGET (KAUSA) IF (-1 MOD/DENB)(NOT 1 PUNTUAZIOA);
+
+#(28)	    #MEN ZENGOEN, ETA KONPL JARRI DA, BAINA GERO KONTURATU GARA CORRECT GEHEINEK MOD/DENB DUTELA (SALBUESPENA GEHITU?) #bete daitekeen bakarra dela-medio idatzita, beraz, proba egiteko asterikoa jarri zaio, baina hala ere ez du muga jartzen. beste aldaketa bat, mend jartzea izan daiteke, baina mend.en barruan mod/denb definitu behar da )( 1 PUNTUAZIOA) jarrita ere, ez du kasurik egiten
+
+MAP (}MUGA) TARGET ("medio") IF (-1 MOD/DENB)(NOT 1 PUNTUAZIOA);
+
+
+
+#(28a) #erregela berria proba egiteko (ea aurrekoak harrapatzen dituen, aurreko muga gram pasaatzen ez denean (2012-0419)# (*-2 MOD/DENB) jarri zehazteko gidoia badute dela-medio. EZ DABIL. medio lemarekin proba:ez
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 ("medio"));
+
+
+
+#(29)	    #MEN ZENGOEN, 27 BEZALA (EZ DAGO LAGINEAN)
+MAP (}MUGA) TARGET (BIDE) IF (-1 MOD/DENB)(NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Hori dela kausa|, partidua galdu zuten.
+# Hori dela medio|, partidua galdu zuten.
+# Hori dela bide|, partidua galdu zuten.
+
+#(30)
+MAP (}MUGA) TARGET (KAUS) IF (0 ADT OR LOT_MEN) (NOT 1 GERO OR M_KAUS) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# [...]beldurrik handiena artifizialki gertatutakoari izan behar zaiolako | 'oharreraino' argazkilarien deklarazio kontraesate gehienak bat datoz.
+# Merkea delako| erosi dut.
+
+#(31)
+MAP (}MUGA) TARGET (GERO) IF (-1 KAUS) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Berandu zenez gero, |  esatera joan ginen.
+
+#(32) 	#DESKOMENTATU DA ERREGELA HAU, arriskutsua da; berriro komentatu
+#MAP (}MUGA) TARGET (KAUS) IF (0 ADL) (NOT 1 NOTDEK) (NOT 1 GERO OR M_KAUS)(NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Azkar gidatzen zuelako| izan zuen istripua.
+
+
+
+
+# Helburuzko perpausak
+
+#(33)	
+#MAP (}MUGA) TARGET (ADIZE) IF (1 ADT OR ADL OR EZEZKOAK)(NOT 1 PUNTUAZIOA);
+
+
+
+#(34)
+MAP (}MUGA) TARGET (HELB) IF (0 ADT);
+
+
+
+#(35)
+MAP (}MUGA) TARGET (HELB) IF (0 ADL) (NOT 1 NOTDEK) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+#Horrelako egoeratan aurki ez gaitezen | norberak legezta dezake kaldera[...]
+
+
+
+# Baldintzazko perpausak
+
+
+#(36)
+#MAP (}MUGA) TARGET (BALD) IF (0 ADT) (NOT 1 BALDOSAG) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Zuk badiozu, | hala izango da.
+
+
+#(37)
+MAP (}MUGA) TARGET (BALD) IF (0 ADL) (NOT 1 NOTDEK OR BALDOSAG)(NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Erortzen bazara,| min hartuko duzu.
+# Bina afrikar bati galdetzen badiozu | animalien erregea zein den[...]
+
+#(38)
+MAP (}MUGA) TARGET (GERO) IF (-1 PART + INE) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Etorriz gero,| garazi egingo dugu.
+
+#(39)
+MAP (}MUGA) TARGET (EZIK) IF (-1 NOTDEK) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+#Ikasten hasi ezik, ez zara jolastera joango.
+
+#(40)
+MAP (}MUGA) TARGET (EZEAN) IF (-1 NOTDEK)(NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Esan ezean,| ez dugu egingo.
+
+
+
+# Erlatibozko perpausak
+
+#(41) #komentatu dugu proba egiteko eta ondorioztatu dugu erregelen hurrenkerak baduela eragina # adk gehitu zaio 
+MAP (}MUGA) TARGET (ERLT) IF (0 ADT OR ADK) (NOT 1 M1_DENB OR M1_MOD OR M2_MOD OR M1_KONT OR PUNTUAZIOA)
+				    (NOT 0 ("izan")+(DEK)+(ABS));
+			    
+                                                                    
+# Adb.:
+# Niri dagokidan| soldata eskatu dut.
+# Dakidana | esango dizut.
+
+#(42)
+MAP (}MUGA) TARGET (ERLT) IF (0 ADL) (NOT 1 NOTDEK OR M1_DENB OR M1_MOD OR M2_MOD OR M1_KONT OR PUNTUAZIOA);
+                                                           
+# Adb.:
+# Etorri den| mutilak esan digu.
+# Etorri dena| Mikel da.
+# Jaio nintzeneko| etxea hori da.
+
+
+#(43)
+MAP (}MUGA) TARGET (GEL) IF (0 PART);
+
+# Adb.:
+# Zuk esandako| guztia gezurra da.
+# Zuk esandakoa| gezurra da.
+
+
+#(44)
+MAP (}MUGA) TARGET (ADI) IF (0 (@-JADNAG_MP_IZLG>));
+
+#Adb.:
+#Alabaina, aipatu|  ordena norabide mugatu bati jarraikitzen zaio.
+#Kamera horrek dibujoaren bitartez dituen erreproduzitzeko|  ahalbideak finkatuko ditu.
+
+
+#(45)
+MAP (}MUGA) TARGET (KOMA) IF (1 GALDETZAILEAK) (NOT -1 ADI_NOTDEK);
+
+
+# ezezko ez jokatuak (2012-07-02)
+# gabe
+MAP (}MUGA) TARGET ("gabe") IF (0 GEL) (-1 PART);
+
+# aditz modalak: beharreko, ezineko, ahaleko (corpusean ez dago, nola egin erregela?) 
+MAP (}MUGA) TARGET ("behar") IF (0 GEL) (-1 PART);
+MAP (}MUGA) TARGET ("ezineko") IF  (-1 PART);
+
+# Denborazko perpausak
+
+#(46) # adk eta adize gehituak
+MAP (}MUGA) TARGET (DENB) IF (0 ADT OR ADL OR ADK OR ADIZE) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Hemen dagoenetik|, oso alai dabil.
+# Ama ikusi duenean|, korrika joan zaio.
+
+#(47) #parentesiak jarrita; proba egiteko (M1_DENB) eiketaren ordez bitartean lema jarrita ez; lemarekin eta or part kenduta  OR (PART) ezta. 41 komentatuta eta leman jarrita badabil. EZ DA APLIKATZEN. komentatuta amaierakoak probatzeko. amaierakoak ondo. arazoa list.etan egon daiteke; formak daude eta ez lemak
+
+#MAP (}MUGA) TARGET (M1_DENB) IF (-1 (ERLT) OR (PART)) (NOT 1 PUNTUAZIOA);
+
+
+# Adb.:
+# Egiten duen bitartean,| telebista ikusiko dugu.
+# Bukatzen duen unean| joango da.
+# Etortzen naizen bakoitzean| ikusten dut.
+# Ikusten dudan guztietan| agurtzen nau.
+# Joaten zaren gehienetan| euria egiten du.
+# Isiltzen garen aldiro| entzun daiteke.
+# Isiltzen zareten arte| ez naiz hasiko.
+# Isildu bitartean| ez naiz hasiko.
+
+
+
+#(48)
+MAP (}MUGA) TARGET (IZE) IF (0 ("aurre")+(ABL))(-1 PART)(NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#Guztiz ilundu aurretik | komeni da etxeratzea[...]
+#Abisualdia amaitu aurretik | esan du non kokatua egongo den[...]
+
+#(49)
+MAP (}MUGA) TARGET (ADB) IF (0 ORDUKO) (-1 PART) (NOT 1 PUNTUAZIOA);
+
+
+#(50)
+MAP (}MUGA) TARGET (OSTEAN) IF (-1 PART) (NOT 1 PUNTUAZIOA);
+
+
+#(51)
+MAP (}MUGA) TARGET (ADB)IF (0 ONDOREN) (-1 PART) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# [...]eta komunak igaro ondoren | zegoen ate baten parean geratu zen enkargatua.
+
+
+#(52)
+MAP (}MUGA) TARGET (INE) IF (0 ADIZE) (NOT 1 PUNTUAZIOA OR ADI_NOTDEK) (NOT 0 (%ADIKATBU)OR(%ADIKATETENBU));
+
+# Adb.:
+#[...]gainera horrela beste urte guztian betiko formak gordetzen | jarraitzeko indarra ematen digu.
+
+#(53) #konpondu behar da: transistorea piztuta| dagoenean egiturak hartu, besteak ondo
+MAP (}MUGA) TARGET (MOD) IF (0 ADI) (NOT 1 BALDOSAG) (NOT 1 PUNTUAZIOA);
+
+
+
+
+# Kontzesiboak
+
+
+
+#(54)	# (-1 ADI_NOTDEK) zegoen eta adt, adl eta adk jarri da jokatuak ere hartzeko 2012-04-23# arren lema aldatu eta "ere" gehitu zaio
+MAP (}MUGA) TARGET ("arren") IF (-1 ADL OR ADT OR ADK OR ADI_NOTDEK) (NOT 1 PUNTUAZIOA OR ("ere"));
+
+# Adb.:
+# Ordaindu arren, | ez dio emango.
+# Ordaindu diogun arren | ez diogu emango.
+
+#(55) # konp->konpl
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 ("ere")) (-2 (BALD)OR(KONPL)OR(MOD)OR(GABE)); 
+
+#Adb.:
+#Denongan zaratak eragin handia badu ere, | hauengan are gehiago[...]
+
+#(56) #nahiz eta haul da?
+
+#MAP (}MUGA) TARGET (PUNT_KOMA) IF (1 ("nahiz")) (2 ("eta"));
+
+#Adb.:
+#[...]asko ugaritu ziren liburuak, nahiz eta irakurketa bera jende eskolatuaren mundura mugatua egon.
+
+
+# Moduzko perpausak
+
+
+#(57)
+MAP (}MUGA) TARGET (ADB) IF (0 ("bezala")) (-1 ADI_NOTDEK OR MOD) (NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#Pertsona zaurituaren odola darion bezala | zuhaitzen azaletik erortzen da erresina.
+
+
+#(58)
+MAP (}MUGA) TARGET (IZE) IF (0 ("modu")+(INE)) (-1 ADI_NOTDEK OR MOD)(NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#Sartu eta tokia ezagutzen ez zuenaren moduan | jardun zen.
+
+#(59)
+MAP (}MUGA) TARGET (ADB) IF (0 ("legez")) (-1 ADI_NOTDEK OR MOD) (NOT 1 PUNTUAZIOA);
+
+
+#(60)
+MAP (}MUGA) TARGET (IZE) IF (0 ("era")+(INE)) (-1 ADI_NOTDEK OR MOD)(NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#[...]merkantzia gehiegi estimatzen ez duenaren eran | eta mondragoetarrek entzuteko gisan.
+
+#(61)
+MAP (}MUGA) TARGET (ADB) IF (0 ("antzera")) (-1 ADI_NOTDEK OR MOD) (NOT 1 PUNTUAZIOA);
+
+
+
+#(62)
+MAP (}MUGA) TARGET (IZE) IF (0 ("gisa")+(INE)) (-1 ADI_NOTDEK OR MOD)(NOT 1 PUNTUAZIOA);
+
+
+#(63)
+MAP (}MUGA) TARGET (IZE) IF (0 ("neurri")+(INE)) (-1 ADI_NOTDEK OR MOD)(NOT 1 PUNTUAZIOA);
+
+#(64)
+MAP (}MUGA) TARGET (ADB) IF (0 ("heinean")) (-1 ADI_NOTDEK OR MOD) (NOT 1 PUNTUAZIOA);
+
+
+#(65)
+#MAP (}MUGA) TARGET (ADJ) IF (0 ("bezalako")) (-1 ADI_NOTDEK)(NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#[...]gauzak diren bezalakoari | buruz egiten dituzten errespetuzko deklarazio piadosoak egiterakoan.
+
+#(66)
+MAP (}MUGA) TARGET (IZE) IF (0 ("modu")+(GEL)) (-1 ADI_NOTDEK)(NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Zuk esan duzun bezalakoa| da.
+# Zu zaren modukoa| da.
+
+#(67)
+MAP (}MUGA) TARGET (ADB) IF (0 ("bezala")) (-1 ("ez")) (NOT 1 PUNTUAZIOA);
+
+# Adb.:
+# Amaiak ez bezala,| nik ongi egin dut.
+
+
+
+#Aditz-izenak: 
+
+#(68)
+MAP (}MUGA) TARGET (ADIZE) IF  (0 (DEK)) (NOT 1 PUNTUAZIOA)
+			       (NOT 1 ("aritu")+(ADOIN))
+			       (NOT -2 ("aritu")+(ADOIN));
+
+#Adb.:
+#Aretxabaletako Udal Txit Gorenak usadio berri baten bultzatzailetzat oroitua izatea | lortuko du seguruenik.
+
+#(69)
+MAP (}MUGA) TARGET (ALA) IF (0 ("jakin")+(ADIZE)) (NOT 1 ("eman"));
+
+#Adb.:
+#[...]aurreikusitako plangintzak ezin jakitera eman[...]
+
+#Partizipioak:
+
+#(70)
+MAP (}MUGA) TARGET (PART) IF (0 (INS))(NOT 1 ("gero")OR("ere")OR("bezala")OR(BEREIZ)) (NOT 1 PUNTUAZIOA);
+
+#Adb.:
+#Jakintsuak esanda, mozorrotzea errutina hautsiz | gure izaera adierazteko bide ezin hobea dela uste dugu[...]
+
+#Denborazko esapideak: # KONPONTZEKO JADNAG 
+#(71)
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-3 (DZH))
+				 (-4 (@+JADNAG_MP));
+#Adib:
+#Duela 35 milioi urte,| hegazti eta ugaztunen aroa hasi zen... @ eta duela ia 2 urte???
+
+#(72)
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-2 (DZH))
+				  (-3 (@+JADNAG_MP));
+#Adib:
+#Orain dela bi egun,| ... (Honelako egiturarik ez dago corpusean)
+
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (DZH)OR (DZG))
+				  (-3 (@+JADNAG_MP));
+#Adib:
+#Duela hilabete bat,|... 
+#Duela denbora asko,|... 
+
+
+
+#hemen 1.8  bertsioan zeuden erregelak jarriko dira, amaieran daude lehen egindako aplikatzen diren erregelen zerrenda ez aldatzeko (erregela eta lerroa). hauek probatzeko 1.10 bertsioko 47 komentatu da. erregelak bertsio berrira egokitu dira, eta list-en ordez leman jarri dira
+# denborazkoak 2012-04-25
+
+######MOS jarri behar da ERLT ordez, ala biak; kasu batzuetan correct MOS eta beste batzuetan ERLT  #ebialuzioa egiterakoan iksitako oharra!!!
+
+MAP (}MUGA) TARGET ("bitarte") IF (-1 ERLT OR PART) (NOT 1 PUNTUAZIOA);	#bitartean ONDO
+MAP (}MUGA) TARGET ("une") IF (-1 ERLT) (NOT 1 PUNTUAZIOA);		#unean,  egitura laginean ez
+MAP (}MUGA) TARGET ("bakoitz") IF (-1 ERLT) (NOT 1 PUNTUAZIOA);		#bakoitzean, egitura laginean ez
+MAP (}MUGA) TARGET ("guzti") IF (-1 ERLT) (NOT 1 PUNTUAZIOA);		#guztietan, egitura laginean ez
+MAP (}MUGA) TARGET ("gehienetan") IF (-1 ERLT) (NOT 1 PUNTUAZIOA);	# gehienetan, egitura laginean ez
+MAP (}MUGA) TARGET ("aldiro") IF (-1 ERLT) (NOT 1 PUNTUAZIOA);		# egitura laginean ez
+MAP (}MUGA) TARGET ("arte") IF (-1 ERLT OR PART) (NOT 1 PUNTUAZIOA);	# ONDO
+
+
+
+
+#moduzkoak, porsiaka; egokitu behar dira
+
+#MAP (}MUGA) TARGET (BEZALA) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (MODUAN) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (LEGEZ) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (ERAN) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (ANTZERA) IF (-1 ADI_NOTDEK OR MOD); 
+#MAP (}MUGA) TARGET (GISAN) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (NEURRIAN) IF (-1 ADI_NOTDEK OR MOD);
+#MAP (}MUGA) TARGET (HEINEAN) IF (-1 ADI_NOTDEK OR MOD);
+
+
+# menosak koma aurretik 2012-04-25: list berri bat egin behar da edo banakako erregelak definitu. KONPONDUTA 
+
+# ezezkoak eta koma ere konpontzen 2012-04-25:
+
+
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 (ADI)) (-2 (ADL)) (-3 ("ez"));
+#adb. ez ditugu erabiliko
+MAP (}MUGA) TARGET (PUNT_KOMA) IF (-1 MENOS) (-2 ("ez")) (-3 (ADI));
+#adb. gauzatu ez arren
+
+#nagusi +mendeko Adb. egin ziren liga  hasi orduko #erroreak, batzuk konpoduak, kontu bait separatuak konpontzeko
+
+MAP (}MUGA) TARGET (ADL) IF (NOT 0 MEND OR KONPL OR MDNC) (NOT -1 ("ez")) (NOT 1 (@ADLG) OR (%SINT) OR (%SIH)) (*1 ADI OR ADT OR ADL + MEND OR KONPL OR NOTDEK  BARRIER PUNTUAZIOA OR LOT);
+
+#bereiz konpondu, eta  "(...)". bezalakoak ere
